@@ -36,6 +36,7 @@ class TestApp < Rails::Application
   config.session_store :cookie_store, key: "cookie_store_key"
   secrets.secret_key_base = "secret_key_base"
   config.eager_load = false
+  config.hosts = []
 
   # This allow us to send all logs to STDOUT if we run test wth `VERBOSE=1`
   config.logger = if ENV["VERBOSE"]
