@@ -15,6 +15,10 @@ build_steps: &build_steps
         name: Run tests
         command: rake
 
+ruby-2-4: &ruby-2-4
+  docker:
+    - image: circleci/ruby:2.4
+
 ruby-2-5: &ruby-2-5
   docker:
     - image: circleci/ruby:2.5
@@ -40,6 +44,15 @@ rails-edge: &rails-edge
       RAILS_BRANCH: "master"
 
 jobs:
+  "ruby-2-4-rails-5-1":
+    <<: *ruby-2-4
+    <<: *rails-5-1
+    <<: *build_steps
+  "ruby-2-4-rails-5-2":
+    <<: *ruby-2-4
+    <<: *rails-5-2
+    <<: *build_steps
+
   "ruby-2-5-rails-5-1":
     <<: *ruby-2-5
     <<: *rails-5-1
@@ -56,6 +69,7 @@ jobs:
     <<: *ruby-2-5
     <<: *rails-edge
     <<: *build_steps
+
   "ruby-2-6-rails-5-1":
     <<: *ruby-2-6
     <<: *rails-5-1
@@ -77,10 +91,14 @@ workflows:
   version: 2
   build:
     jobs:
+      - "ruby-2-4-rails-5-1"
+      - "ruby-2-4-rails-5-2"
+
       - "ruby-2-5-rails-5-1"
       - "ruby-2-5-rails-5-2"
       - "ruby-2-5-rails-6-0"
       - "ruby-2-5-rails-edge"
+
       - "ruby-2-6-rails-5-1"
       - "ruby-2-6-rails-5-2"
       - "ruby-2-6-rails-6-0"
