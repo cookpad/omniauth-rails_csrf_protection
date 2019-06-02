@@ -5,6 +5,8 @@ Forgery on the request phrase when using OmniAuth gem with a Ruby on Rails
 application) by implementing a CSRF token verifier that directly utilize
 `ActionController::RequestForgeryProtection` code from Rails.
 
+[![CircleCI](https://circleci.com/gh/cookpad/omniauth-rails_csrf_protection/tree/master.svg?style=svg)](https://circleci.com/gh/cookpad/omniauth-rails_csrf_protection/tree/master)
+
 ## Usage
 
 Add this line to your application's Gemfile:
