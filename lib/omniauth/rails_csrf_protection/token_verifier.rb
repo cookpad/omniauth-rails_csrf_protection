@@ -28,7 +28,7 @@ module OmniAuth
       end
 
       def call(env)
-        @request = ActionDispatch::Request.new(env)
+        @request = ActionDispatch::Request.new(env.dup)
 
         unless verified_request?
           raise ActionController::InvalidAuthenticityToken
