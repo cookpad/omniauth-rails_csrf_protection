@@ -20,7 +20,7 @@ gem "omniauth-rails_csrf_protection"
 Then run `bundle install` to install this gem.
 
 You will then need to verify that all links in your application that would
-initiate OAuth request phrase are being converted to a HTTP POST form that
+initiate OAuth request phase are being converted to a HTTP POST form that
 contains `authenticity_token` value. This might simply be done by changing all
 `link_to` to `button_to`, or use `link_to ..., method: :post`.
 
@@ -28,8 +28,8 @@ contains `authenticity_token` value. This might simply be done by changing all
 
 This gem does a few things to your application:
 
-* Disable access to the OAuth request phrase using HTTP GET method.
-* Insert a Rails CSRF token verifier at the before request phrase.
+* Disable access to the OAuth request phase using HTTP GET method.
+* Insert a Rails CSRF token verifier at the before request phase.
 
 These actions mitigate you from the attack vector described in [CVE-2015-9284].
 
