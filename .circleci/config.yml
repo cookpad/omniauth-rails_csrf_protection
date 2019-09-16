@@ -27,6 +27,10 @@ ruby-2-6: &ruby-2-6
   docker:
     - image: circleci/ruby:2.6
 
+rails-3-2: &rails-3-2
+  environment:
+      RAILS_VERSION: "~> 3.2.0"
+
 rails-4-2: &rails-4-2
   environment:
       RAILS_VERSION: "~> 4.2.0"
@@ -52,6 +56,10 @@ rails-edge: &rails-edge
       RAILS_BRANCH: "master"
 
 jobs:
+  "ruby-2-4-rails-3-2":
+    <<: *ruby-2-4
+    <<: *rails-3-2
+    <<: *build_steps
   "ruby-2-4-rails-4-2":
     <<: *ruby-2-4
     <<: *rails-4-2
@@ -115,6 +123,8 @@ workflows:
   version: 2
   build:
     jobs:
+      - "ruby-2-4-rails-3-2"
+
       - "ruby-2-4-rails-4-2"
       - "ruby-2-4-rails-5-1"
       - "ruby-2-4-rails-5-2"
