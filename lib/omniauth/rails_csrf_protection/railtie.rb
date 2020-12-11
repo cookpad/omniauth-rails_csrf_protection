@@ -4,8 +4,7 @@ module OmniAuth
   module RailsCsrfProtection
     class Railtie < Rails::Railtie
       initializer "omniauth-rails_csrf_protection.initialize" do
-        OmniAuth.config.allowed_request_methods = [:post]
-        OmniAuth.config.before_request_phase = TokenVerifier.new
+        OmniAuth.config.request_validation_phase = TokenVerifier.new
       end
     end
   end

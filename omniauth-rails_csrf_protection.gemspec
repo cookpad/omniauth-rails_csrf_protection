@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "actionpack", ">= 4.2"
-  spec.add_dependency "omniauth", ">= 1.3.1"
+  spec.add_dependency "omniauth", "~> 2.0"
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "minitest"
