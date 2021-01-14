@@ -11,14 +11,16 @@ class ApplicationTest < Minitest::Test
 
   def test_request_phrase_without_token_via_post
     post "/auth/developer"
+    follow_redirect!
 
-    assert last_response.unprocessable?
+    assert last_response.not_found?
   end
 
   def test_request_phrase_with_bad_token_via_post
     post "/auth/developer", authenticity_token: "BAD_TOKEN"
+    follow_redirect!
 
-    assert last_response.unprocessable?
+    assert last_response.not_found?
   end
 
   def test_request_phrase_with_correct_token_via_post
