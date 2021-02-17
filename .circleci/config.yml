@@ -61,7 +61,7 @@ rails-6-1: &rails-6-1
 
 rails-edge: &rails-edge
   environment:
-      RAILS_BRANCH: "master"
+      RAILS_BRANCH: "main"
 
 jobs:
   "ruby-2-4-rails-4-2":
