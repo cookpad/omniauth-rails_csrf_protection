@@ -21,23 +21,23 @@ ruby-2-4: &ruby-2-4
 
 ruby-2-5: &ruby-2-5
   docker:
-    - image: circleci/ruby:2.5
+    - image: cimg/ruby:2.5
 
 ruby-2-6: &ruby-2-6
   docker:
-    - image: circleci/ruby:2.6
+    - image: cimg/ruby:2.6
 
 ruby-2-7: &ruby-2-7
   docker:
-    - image: circleci/ruby:2.7
+    - image: cimg/ruby:2.7
 
 ruby-3-0: &ruby-3-0
   docker:
-    - image: circleci/ruby:3.0
+    - image: cimg/ruby:3.0
 
 ruby-3-1: &ruby-3-1
   docker:
-    - image: circleci/ruby:3.1
+    - image: cimg/ruby:3.1
 
 rails-4-2: &rails-4-2
   environment:
