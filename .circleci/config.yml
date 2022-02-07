@@ -35,6 +35,10 @@ ruby-3-0: &ruby-3-0
   docker:
     - image: circleci/ruby:3.0
 
+ruby-3-1: &ruby-3-1
+  docker:
+    - image: circleci/ruby:3.1
+
 rails-4-2: &rails-4-2
   environment:
       RAILS_VERSION: "~> 4.2.0"
@@ -58,6 +62,10 @@ rails-6-0: &rails-6-0
 rails-6-1: &rails-6-1
   environment:
       RAILS_VERSION: "~> 6.1.0"
+
+rails-7-0: &rails-7-0
+  environment:
+      RAILS_VERSION: "~> 7.0.0"
 
 rails-edge: &rails-edge
   environment:
@@ -151,6 +159,10 @@ jobs:
     <<: *ruby-2-7
     <<: *rails-6-1
     <<: *build_steps
+  "ruby-2-7-rails-7-0":
+    <<: *ruby-2-7
+    <<: *rails-7-0
+    <<: *build_steps
   "ruby-2-7-rails-edge":
     <<: *ruby-2-7
     <<: *rails-edge
@@ -164,8 +176,29 @@ jobs:
     <<: *ruby-3-0
     <<: *rails-6-1
     <<: *build_steps
+  "ruby-3-0-rails-7-0":
+    <<: *ruby-3-0
+    <<: *rails-7-0
+    <<: *build_steps
   "ruby-3-0-rails-edge":
     <<: *ruby-3-0
+    <<: *rails-edge
+    <<: *build_steps
+
+  "ruby-3-1-rails-6-0":
+    <<: *ruby-3-1
+    <<: *rails-6-0
+    <<: *build_steps
+  "ruby-3-1-rails-6-1":
+    <<: *ruby-3-1
+    <<: *rails-6-1
+    <<: *build_steps
+  "ruby-3-1-rails-7-0":
+    <<: *ruby-3-1
+    <<: *rails-7-0
+    <<: *build_steps
+  "ruby-3-1-rails-edge":
+    <<: *ruby-3-1
     <<: *rails-edge
     <<: *build_steps
 
@@ -194,8 +227,15 @@ workflows:
       - "ruby-2-7-rails-5-2"
       - "ruby-2-7-rails-6-0"
       - "ruby-2-7-rails-6-1"
+      - "ruby-2-7-rails-7-0"
       - "ruby-2-7-rails-edge"
 
       - "ruby-3-0-rails-6-0"
       - "ruby-3-0-rails-6-1"
+      - "ruby-3-0-rails-7-0"
       - "ruby-3-0-rails-edge"
+
+      - "ruby-3-1-rails-6-0"
+      - "ruby-3-1-rails-6-1"
+      - "ruby-3-1-rails-7-0"
+      - "ruby-3-1-rails-edge"
