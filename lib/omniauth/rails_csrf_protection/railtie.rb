@@ -1,3 +1,4 @@
+require "omniauth"
 require "omniauth/rails_csrf_protection/token_verifier"
 
 module OmniAuth
