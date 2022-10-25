@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.homepage    = "https://github.com/cookpad/omniauth-rails_csrf_protection"
   spec.license     = "MIT"
 
-  spec.files       = Dir['lib/**/*.rb']
+  spec.files       = Dir['lib/**/*.rb', 'LICENSE.txt', 'README.md']
   spec.test_files  = Dir['test/**/*.rb']
 
   spec.require_paths = ["lib"]
