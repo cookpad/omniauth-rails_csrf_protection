@@ -1,11 +1,12 @@
 source "https://rubygems.org"
 
-# rubocop:disable Bundler/DuplicatedGem
-if ENV["RAILS_VERSION"]
-  gem "rails", ENV["RAILS_VERSION"]
-elsif ENV["RAILS_BRANCH"]
-  gem "rails", git: "https://github.com/rails/rails.git", branch: ENV["RAILS_BRANCH"]
+if ENV["RAILS_VERSION"] == "edge"
+  gem "rails", git: "https://github.com/rails/rails.git", branch: "main"
 end
-# rubocop:enable Bundler/DuplicatedGem
+
+# Lock loofah to old version for Ruby 2.4
+unless RUBY_VERSION > "2.5"
+  gem "loofah", "~> 2.20.0"
+end
 
 gemspec

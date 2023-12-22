@@ -32,6 +32,11 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "minitest"
-  spec.add_development_dependency "rails"
+
+  # We set requirement for Edge Rails in the Gemfile
+  unless ENV["RAILS_VERSION"] == "edge"
+    spec.add_development_dependency "rails", ENV["RAILS_VERSION"]
+  end
+
   spec.add_development_dependency "rake"
 end
