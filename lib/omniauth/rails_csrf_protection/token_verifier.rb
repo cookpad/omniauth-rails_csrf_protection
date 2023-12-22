@@ -29,6 +29,7 @@ module OmniAuth
 
       def call(env)
         @request = ActionDispatch::Request.new(env.dup)
+        OmniAuth.logger.send(:debug, "(token_verifier) #{params.inspect}")
 
         unless verified_request?
           raise ActionController::InvalidAuthenticityToken
