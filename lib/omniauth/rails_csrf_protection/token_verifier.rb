@@ -28,6 +28,10 @@ module OmniAuth
       end
 
       def call(env)
+        dup._call(env)
+      end
+
+      def _call(env)
         @request = ActionDispatch::Request.new(env.dup)
 
         unless verified_request?
