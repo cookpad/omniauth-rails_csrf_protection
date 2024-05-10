@@ -5,8 +5,6 @@ Forgery on the request phase when using OmniAuth gem with a Ruby on Rails
 application) by implementing a CSRF token verifier that directly uses
 `ActionController::RequestForgeryProtection` code from Rails.
 
-[![CircleCI](https://circleci.com/gh/cookpad/omniauth-rails_csrf_protection/tree/main.svg?style=svg)](https://circleci.com/gh/cookpad/omniauth-rails_csrf_protection/tree/main)
-
 [CVE-2015-9284]: https://nvd.nist.gov/vuln/detail/CVE-2015-9284
 
 ## Usage
