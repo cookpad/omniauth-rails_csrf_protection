@@ -18,7 +18,12 @@ silence_warnings do
   gemfile do
     source "https://rubygems.org"
 
-    gem "rails"
+    if ENV["RAILS_VERSION"] == "edge"
+      gem "rails", git: "https://github.com/rails/rails.git", branch: "main"
+    else
+      gem "rails"
+    end
+
     gem "omniauth"
     gem "omniauth-rails_csrf_protection", path: File.expand_path("..", __dir__)
   end
