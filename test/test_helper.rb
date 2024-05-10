@@ -39,7 +39,7 @@ require "minitest/autorun"
 class TestApp < Rails::Application
   config.root = __dir__
   config.session_store :cookie_store, key: "cookie_store_key"
-  secrets.secret_key_base = "secret_key_base"
+  config.secret_key_base = "secret_key_base"
   config.eager_load = false
   config.hosts = []
 
