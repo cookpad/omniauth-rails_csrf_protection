@@ -28,6 +28,13 @@ module OmniAuth
       # our configuration delegate to `ActionController::Base`.
       config.each_key do |key| config.delete(key) end
 
+      # OmniAuth expects us to raise an exception on auth failure.
+      self.forgery_protection_strategy = protection_method_class(:exception)
+
+      # Logging from ActionController::RequestForgeryProtection is redundant.
+      # OmniAuth logs basically the same message (from the exception).
+      self.log_warning_on_csrf_failure = false
+
       def call(env)
         dup._call(env)
       end
@@ -35,15 +42,15 @@ module OmniAuth
       def _call(env)
         @request = ActionDispatch::Request.new(env.dup)
 
-        unless verified_request?
-          raise ActionController::InvalidAuthenticityToken
-        end
+        verify_authenticity_token
       end
 
       private
 
         attr_reader :request
         delegate :params, :session, to: :request
+
+        delegate :logger, to: OmniAuth
     end
   end
 end
