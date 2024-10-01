@@ -41,8 +41,13 @@ module OmniAuth
 
       def _call(env)
         @request = ActionDispatch::Request.new(env.dup)
-
         verify_authenticity_token
+      rescue ActionController::ActionControllerError => ex
+        logger.warn "Attack prevented by #{self.class}"
+        # wrapped exception:
+        # * rescued and handled by OmniAuth::Strategy#request_call
+        # * contains #cause with original exception
+        raise OmniAuth::AuthenticityError, "[#{ex.class}] #{ex}"
       end
 
       private
