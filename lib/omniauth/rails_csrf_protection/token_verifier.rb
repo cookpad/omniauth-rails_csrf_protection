@@ -1,4 +1,3 @@
-require "active_support/configurable"
 require "action_controller"
 
 module OmniAuth
@@ -13,19 +12,15 @@ module OmniAuth
     # authenticity token, you can find the source code at
     # https://github.com/rails/rails/blob/v5.2.2/actionpack/lib/action_controller/metal/request_forgery_protection.rb#L217-L240.
     class TokenVerifier
-      include ActiveSupport::Configurable
-      include ActionController::RequestForgeryProtection
-
       # `ActionController::RequestForgeryProtection` contains a few
       # configurable options. As we want to make sure that our configuration is
-      # the same as what being set in `ActionController::Base`, we should make
-      # all out configuration methods to delegate to `ActionController::Base`.
-      config.each_key do |configuration_name|
-        undef_method configuration_name
-        define_method configuration_name do
-          ActionController::Base.config[configuration_name]
-        end
-      end
+      # the same as what being set in `ActionController::Base`, we use
+      # `class_attribute` to delegate to `ActionController::Base.config`.
+      #
+      # This approach replaces the deprecated ActiveSupport::Configurable usage.
+      class_attribute :config, default: ActionController::Base.config
+
+      include ActionController::RequestForgeryProtection
 
       def call(env)
         dup._call(env)
