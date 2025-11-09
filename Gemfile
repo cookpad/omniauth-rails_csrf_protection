@@ -4,10 +4,6 @@ if ENV["RAILS_VERSION"] == "edge"
   gem "rails", git: "https://github.com/rails/rails.git", branch: "main"
 end
 
-if ENV["RAILS_VERSION"] < "7"
-  gem "logger"
-end
-
 # Lock loofah to old version for Ruby 2.4
 unless RUBY_VERSION > "2.5"
   gem "loofah", "~> 2.20.0"
