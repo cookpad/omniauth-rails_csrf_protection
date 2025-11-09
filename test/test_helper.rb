@@ -13,6 +13,7 @@ end
 
 silence_warnings do
   require "bundler/inline"
+  require "logger"
 
   # Define dependencies required by this test app
   gemfile do
@@ -22,6 +23,11 @@ silence_warnings do
       gem "rails", git: "https://github.com/rails/rails.git", branch: "main"
     else
       gem "rails"
+    end
+
+    if RUBY_VERSION >= "3.4"
+      gem "bigdecimal"
+      gem "mutex_m"
     end
 
     gem "omniauth"
