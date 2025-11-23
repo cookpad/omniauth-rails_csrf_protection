@@ -35,7 +35,7 @@ silence_warnings do
   end
 end
 
-puts "Running test against Rails #{Rails.version}"
+puts "Running test on Ruby #{RUBY_VERSION} against Rails #{Rails.version}"
 
 require "rack/test"
 require "action_controller/railtie"
