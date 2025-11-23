@@ -1,5 +1,9 @@
-require "active_support/configurable"
+require "action_pack/version"
 require "action_controller"
+
+unless ActionPack.version >= Gem::Version.new("8.1.a")
+  require "active_support/configurable"
+end
 
 module OmniAuth
   module RailsCsrfProtection
@@ -13,19 +17,35 @@ module OmniAuth
     # authenticity token, you can find the source code at
     # https://github.com/rails/rails/blob/v5.2.2/actionpack/lib/action_controller/metal/request_forgery_protection.rb#L217-L240.
     class TokenVerifier
-      include ActiveSupport::Configurable
-      include ActionController::RequestForgeryProtection
+      if ActionPack.version >= Gem::Version.new("8.1.a")
+        # `ActiveSupport::Configurable` is deprecated in Rails 8.1 and will be
+        # removed in Rails 8.2. As `ActionController::RequestForgeryProtection`
+        # directly accesing configurations via `config`, we only need to define
+        # these methods and delegate them to `ActionController::Base.config`.
+        def self.config
+          ActionController::Base.config
+        end
 
-      # `ActionController::RequestForgeryProtection` contains a few
-      # configurable options. As we want to make sure that our configuration is
-      # the same as what being set in `ActionController::Base`, we should make
-      # all out configuration methods to delegate to `ActionController::Base`.
-      config.each_key do |configuration_name|
-        undef_method configuration_name
-        define_method configuration_name do
-          ActionController::Base.config[configuration_name]
+        def config
+          self.class.config
+        end
+      else
+        include ActiveSupport::Configurable
+
+        # `ActionController::RequestForgeryProtection` contains a few
+        # configurable options. As we want to make sure that our configuration is
+        # the same as what being set in `ActionController::Base`, we should make
+        # all out configuration methods to delegate to `ActionController::Base`.
+        config.each_key do |configuration_name|
+          undef_method configuration_name if defined?(configuration_name)
+          define_method configuration_name do
+            ActionController::Base.config[configuration_name]
+          end
         end
       end
+
+      # Include this module only after we've prepared the configuration
+      include ActionController::RequestForgeryProtection
 
       def call(env)
         dup._call(env)
