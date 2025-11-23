@@ -7,6 +7,21 @@ application) by implementing a CSRF token verifier that directly uses
 
 [CVE-2015-9284]: https://nvd.nist.gov/vuln/detail/CVE-2015-9284
 
+> [!NOTE]
+> [OmniAuth] has provided a built-in solution to mitigate against
+> [CVE-2015-9284] since [version 2.0.0].
+> You should be able to mitigate against this vulnerability
+> by adding this configuration to your application:
+>
+> ```ruby
+> OmniAuth.config.request_validation_phase = OmniAuth::AuthenticityTokenProtection.new(key: :_csrf_token)
+> ```
+>
+> This gem will continued to be maintained as an alternative to the solution above.
+
+[OmniAuth]: https://github.com/omniauth/omniauth
+[Version 2.0.0]: https://github.com/omniauth/omniauth/releases/tag/v2.0.0
+
 ## Usage
 
 Add this line to your application's Gemfile:
