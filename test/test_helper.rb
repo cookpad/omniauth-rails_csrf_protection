@@ -64,9 +64,7 @@ class TestApp < Rails::Application
   end
 
   # Silence the deprecation warning in Rails 8.0.x
-  if Rails.version.is_a?(Gem::Version) &&
-      Rails.version >= Gem::Version.new("8.0.x") &&
-      Rails.version < Gem::Version.new("8.1")
+  if Gem::Requirement.new("~> 8.0.x").satisfied_by?(Rails.gem_version)
     config.active_support.to_time_preserves_timezone = :zone
   end
 
