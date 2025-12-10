@@ -1,7 +1,7 @@
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__)
 
 # Simple Rails application template, based on Rails issue template
-# https://github.com/rails/rails/blob/master/guides/bug_report_templates/action_controller_gem.rb
+# https://github.com/rails/rails/blob/main/guides/bug_report_templates/action_controller.rb
 
 # Helper method to silence warnings from bundler/inline
 def silence_warnings
@@ -27,9 +27,11 @@ silence_warnings do
 
     if RUBY_VERSION >= "3.4"
       gem "bigdecimal"
+      gem "drb"
       gem "mutex_m"
     end
 
+    gem "capybara"
     gem "omniauth"
     gem "omniauth-rails_csrf_protection", path: File.expand_path("..", __dir__)
   end
@@ -73,7 +75,10 @@ class TestApp < Rails::Application
 
   # Define our custom routes. This needs to be called after initialize!
   routes.draw do
+    get "sign_in" => "application#sign_in"
     get "token" => "application#token"
+    get "auth/failure" => "application#failure"
+    match "auth/developer/callback" => "application#callback", :via => [:get, :post]
   end
 end
 
@@ -81,5 +86,19 @@ end
 class ApplicationController < ActionController::Base
   def token
     render plain: form_authenticity_token
+  end
+
+  def sign_in
+    render inline: <<~ERB
+      <%= button_to "Sign in", "/auth/developer", method: :post %>
+    ERB
+  end
+
+  def failure
+    render plain: params[:message]
+  end
+
+  def callback
+    render plain: "Hello #{params[:name]} (#{params[:email]})!"
   end
 end

@@ -13,14 +13,14 @@ class ApplicationTest < Minitest::Test
     post "/auth/developer"
     follow_redirect!
 
-    assert last_response.not_found?
+    assert_equal "ActionController::InvalidAuthenticityToken", last_response.body
   end
 
   def test_request_phrase_with_bad_token_via_post
     post "/auth/developer", authenticity_token: "BAD_TOKEN"
     follow_redirect!
 
-    assert last_response.not_found?
+    assert_equal "ActionController::InvalidAuthenticityToken", last_response.body
   end
 
   def test_request_phrase_with_correct_token_via_post

@@ -29,8 +29,15 @@ module OmniAuth
         def config
           self.class.config
         end
+
+        # For Rails 8.1+, includes this module after `config` is setup.
+        include ActionController::RequestForgeryProtection
       else
         include ActiveSupport::Configurable
+
+        # For Rails < 8.1, includes this module before delegation setup.
+        # Otherwise, `config` will be empty, and the delegation will fail.
+        include ActionController::RequestForgeryProtection
 
         # `ActionController::RequestForgeryProtection` contains a few
         # configurable options. As we want to make sure that our configuration is
@@ -43,9 +50,6 @@ module OmniAuth
           end
         end
       end
-
-      # Include this module only after we've prepared the configuration
-      include ActionController::RequestForgeryProtection
 
       def call(env)
         dup._call(env)

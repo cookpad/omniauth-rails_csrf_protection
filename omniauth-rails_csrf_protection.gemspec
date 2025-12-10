@@ -31,6 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "omniauth", "~> 2.0"
 
   spec.add_development_dependency "bundler"
+  spec.add_development_dependency "capybara"
   spec.add_development_dependency "minitest"
 
   # We set requirement for Edge Rails in the Gemfile
