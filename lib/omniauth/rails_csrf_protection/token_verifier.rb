@@ -63,6 +63,10 @@ module OmniAuth
         end
       end
 
+      def action_name
+        "token-verifier"
+      end
+
       private
 
         attr_reader :request
