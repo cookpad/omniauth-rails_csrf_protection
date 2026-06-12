@@ -10,6 +10,16 @@ def silence_warnings
 ensure
   $VERBOSE = old_verbose
 end
+# Rails 8.2 deprecated ActionController::InvalidAuthenticityToken in favour of
+# ActionController::InvalidCrossOriginRequest, so the CSRF rejection surfaces
+# under a different class name depending on the Rails version under test.
+def expected_csrf_error_name
+  if Rails.gem_version >= Gem::Version.new("8.2.a")
+    "ActionController::InvalidCrossOriginRequest"
+  else
+    "ActionController::InvalidAuthenticityToken"
+  end
+end
 
 silence_warnings do
   require "bundler/inline"

@@ -27,7 +27,7 @@ class IntegrationTest < ActionDispatch::IntegrationTest
     visit sign_in_path
     click_on "Sign in"
 
-    refute page.has_content?("ActionController::InvalidAuthenticityToken")
+    refute page.has_content?(expected_csrf_error_name)
 
     fill_in "Name", with: "Kagari Mimi"
     fill_in "Email", with: "mimi@example.com"

@@ -50,6 +50,20 @@ module OmniAuth
           end
         end
       end
+      # Rails 8.2 deprecated `ActionController::InvalidAuthenticityToken` in
+      # favour of `ActionController::InvalidCrossOriginRequest` (removal in
+      # Rails 9.0), making the old name a deprecated alias of the new one. On
+      # 8.2+ both constants resolve to the same class, so raising the new one
+      # silences the deprecation warning while still being caught by apps that
+      # `rescue_from ActionController::InvalidAuthenticityToken`. On older Rails
+      # they are distinct sibling classes, so we keep raising the original to
+      # avoid silently bypassing those rescue handlers.
+      INVALID_REQUEST_ERROR =
+        if ActionPack.version >= Gem::Version.new("8.2.a")
+          ActionController::InvalidCrossOriginRequest
+        else
+          ActionController::InvalidAuthenticityToken
+        end
 
       def call(env)
         dup._call(env)
@@ -59,7 +73,7 @@ module OmniAuth
         @request = ActionDispatch::Request.new(env.dup)
 
         unless verified_request?
-          raise ActionController::InvalidAuthenticityToken
+          raise INVALID_REQUEST_ERROR
         end
       end
 
@@ -67,6 +81,13 @@ module OmniAuth
 
         attr_reader :request
         delegate :params, :session, to: :request
+        # Rails 8.2's CSRF instrumentation (instrument_csrf_event, added in
+        # rails/rails#56355) reads `action_name` for its notification payload.
+        # That method normally comes from AbstractController; since we include
+        # RequestForgeryProtection standalone, we stub it.
+        def action_name
+          nil
+        end
     end
   end
 end
