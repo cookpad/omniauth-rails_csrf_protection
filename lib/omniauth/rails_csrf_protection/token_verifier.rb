@@ -23,15 +23,19 @@ module OmniAuth
         # directly accesing configurations via `config`, we only need to define
         # these methods and delegate them to `ActionController::Base.config`.
         def self.config
+          @config ||= ActiveSupport::OrderedOptions.new
+        end
+
+        include ActionController::RequestForgeryProtection
+
+        singleton_class.send(:remove_method, :config)
+        def self.config
           ActionController::Base.config
         end
 
         def config
           self.class.config
         end
-
-        # For Rails 8.1+, includes this module after `config` is setup.
-        include ActionController::RequestForgeryProtection
       else
         include ActiveSupport::Configurable
 
